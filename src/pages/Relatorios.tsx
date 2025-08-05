@@ -35,10 +35,10 @@ const Relatorios = () => {
       relatorio.descricao.toLowerCase().includes(filtros.search.toLowerCase());
     
     const matchFuncionario = 
-      !filtros.funcionario || relatorio.funcionario === filtros.funcionario;
+      !filtros.funcionario || filtros.funcionario === "all" || relatorio.funcionario === filtros.funcionario;
     
     const matchTipo = 
-      !filtros.tipo || relatorio.tipoAtendimento === filtros.tipo;
+      !filtros.tipo || filtros.tipo === "all" || relatorio.tipoAtendimento === filtros.tipo;
 
     return matchSearch && matchFuncionario && matchTipo;
   });
@@ -113,7 +113,7 @@ const Relatorios = () => {
                     <SelectValue placeholder="Todos" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Todos</SelectItem>
+                    <SelectItem value="all">Todos</SelectItem>
                     {funcionariosUnicos.map((funcionario) => (
                       <SelectItem key={funcionario} value={funcionario}>
                         {funcionario}
@@ -133,7 +133,7 @@ const Relatorios = () => {
                     <SelectValue placeholder="Todos" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Todos</SelectItem>
+                    <SelectItem value="all">Todos</SelectItem>
                     {tiposUnicos.map((tipo) => (
                       <SelectItem key={tipo} value={tipo}>
                         {tipo}
