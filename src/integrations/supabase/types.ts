@@ -14,7 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          nome: string
+          role: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          nome: string
+          role?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          nome?: string
+          role?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      relatorios: {
+        Row: {
+          cliente: string
+          created_at: string
+          descricao: string | null
+          duracao: number
+          funcionario: string
+          id: string
+          tipo_atendimento: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cliente: string
+          created_at?: string
+          descricao?: string | null
+          duracao: number
+          funcionario: string
+          id?: string
+          tipo_atendimento: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cliente?: string
+          created_at?: string
+          descricao?: string | null
+          duracao?: number
+          funcionario?: string
+          id?: string
+          tipo_atendimento?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

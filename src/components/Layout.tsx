@@ -1,14 +1,16 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Monitor, FileText, BarChart3, Home } from "lucide-react";
+import { Monitor, FileText, BarChart3, Home, LogOut, User } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
+  const { profile, signOut, isAdmin } = useAuth();
 
   const navigation = [
     { name: "Dashboard", href: "/", icon: Home },
     { name: "Novo Relatório", href: "/relatorio", icon: FileText },
-    { name: "Relatórios", href: "/relatorios", icon: BarChart3 },
+    ...(isAdmin ? [{ name: "Relatórios", href: "/relatorios", icon: BarChart3 }] : []),
   ];
 
   return (
@@ -23,7 +25,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 LanHouse Pro - Sistema de Relatórios
               </h1>
             </div>
-            <nav className="flex space-x-4">
+            <nav className="flex items-center space-x-4">
               {navigation.map((item) => {
                 const Icon = item.icon;
                 const isActive = location.pathname === item.href;
@@ -40,6 +42,24 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   </Link>
                 );
               })}
+              
+              <div className="flex items-center space-x-2 ml-4 pl-4 border-l border-border">
+                <div className="flex items-center space-x-2">
+                  <User className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-foreground">
+                    {profile?.nome} {isAdmin && '(Admin)'}
+                  </span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => signOut()}
+                  className="flex items-center space-x-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>Sair</span>
+                </Button>
+              </div>
             </nav>
           </div>
         </div>
