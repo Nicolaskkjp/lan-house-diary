@@ -9,11 +9,9 @@ import Layout from "@/components/Layout";
 interface Relatorio {
   id: number;
   funcionario: string;
-  cliente: string;
   tipoAtendimento: string;
   descricao: string;
-  duracao: string;
-  timestamp: string;
+  horarioEnvio: string;
 }
 
 const Relatorios = () => {
@@ -31,8 +29,8 @@ const Relatorios = () => {
 
   const relatoriosFiltrados = relatorios.filter((relatorio) => {
     const matchSearch = 
-      relatorio.cliente.toLowerCase().includes(filtros.search.toLowerCase()) ||
-      relatorio.descricao.toLowerCase().includes(filtros.search.toLowerCase());
+      relatorio.descricao.toLowerCase().includes(filtros.search.toLowerCase()) ||
+      relatorio.funcionario.toLowerCase().includes(filtros.search.toLowerCase());
     
     const matchFuncionario = 
       !filtros.funcionario || filtros.funcionario === "all" || relatorio.funcionario === filtros.funcionario;
@@ -96,7 +94,7 @@ const Relatorios = () => {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Buscar</label>
                 <Input
-                  placeholder="Cliente ou descrição..."
+                  placeholder="Atendente ou descrição..."
                   value={filtros.search}
                   onChange={(e) => setFiltros(prev => ({ ...prev, search: e.target.value }))}
                   className="bg-background"
@@ -104,7 +102,7 @@ const Relatorios = () => {
               </div>
               
               <div className="space-y-2">
-                <label className="text-sm font-medium">Funcionário</label>
+                <label className="text-sm font-medium">Atendente</label>
                 <Select 
                   value={filtros.funcionario} 
                   onValueChange={(value) => setFiltros(prev => ({ ...prev, funcionario: value }))}
@@ -169,24 +167,16 @@ const Relatorios = () => {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
-                      <CardTitle className="text-lg flex items-center space-x-2">
-                        <User className="h-4 w-4 text-gaming-primary" />
-                        <span>Cliente: {relatorio.cliente}</span>
-                      </CardTitle>
-                      <CardDescription className="flex items-center space-x-4 mt-2">
-                        <span className="flex items-center space-x-1">
-                          <User className="h-3 w-3" />
-                          <span>{relatorio.funcionario}</span>
-                        </span>
-                        <span className="flex items-center space-x-1">
-                          <Calendar className="h-3 w-3" />
-                          <span>{formatDate(relatorio.timestamp)}</span>
-                        </span>
-                        <span className="flex items-center space-x-1">
-                          <Clock className="h-3 w-3" />
-                          <span>{relatorio.duracao} min</span>
-                        </span>
-                      </CardDescription>
+                       <CardTitle className="text-lg flex items-center space-x-2">
+                         <User className="h-4 w-4 text-gaming-primary" />
+                         <span>Atendente: {relatorio.funcionario}</span>
+                       </CardTitle>
+                       <CardDescription className="flex items-center space-x-4 mt-2">
+                         <span className="flex items-center space-x-1">
+                           <Calendar className="h-3 w-3" />
+                           <span>{formatDate(relatorio.horarioEnvio)}</span>
+                         </span>
+                       </CardDescription>
                     </div>
                     <Badge className={`${getTipoColor(relatorio.tipoAtendimento)} text-white`}>
                       {relatorio.tipoAtendimento}
