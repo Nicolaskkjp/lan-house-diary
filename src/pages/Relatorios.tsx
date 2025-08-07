@@ -28,6 +28,11 @@ const Relatorios = () => {
   }, []);
 
   const relatoriosFiltrados = relatorios.filter((relatorio) => {
+    // Verificar se os campos necessários existem
+    if (!relatorio.descricao || !relatorio.funcionario) {
+      return false;
+    }
+    
     const matchSearch = 
       relatorio.descricao.toLowerCase().includes(filtros.search.toLowerCase()) ||
       relatorio.funcionario.toLowerCase().includes(filtros.search.toLowerCase());
@@ -41,10 +46,11 @@ const Relatorios = () => {
     return matchSearch && matchFuncionario && matchTipo;
   });
 
-  const funcionariosUnicos = [...new Set(relatorios.map(r => r.funcionario))];
-  const tiposUnicos = [...new Set(relatorios.map(r => r.tipoAtendimento))];
+  const funcionariosUnicos = [...new Set(relatorios.map(r => r.funcionario).filter(Boolean))];
+  const tiposUnicos = [...new Set(relatorios.map(r => r.tipoAtendimento).filter(Boolean))];
 
   const formatDate = (timestamp: string) => {
+    if (!timestamp) return "Data não disponível";
     return new Date(timestamp).toLocaleString("pt-BR");
   };
 
