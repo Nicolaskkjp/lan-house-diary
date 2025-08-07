@@ -32,11 +32,9 @@ const NovoRelatorio = () => {
     const formData = new FormData(e.currentTarget);
     const relatorio = {
       funcionario: formData.get("funcionario"),
-      cliente: formData.get("cliente"),
       tipoAtendimento: formData.get("tipoAtendimento"),
       descricao: formData.get("descricao"),
-      duracao: formData.get("duracao"),
-      timestamp: new Date().toISOString(),
+      horarioEnvio: new Date().toISOString(),
     };
 
     // Simular salvamento
@@ -81,26 +79,12 @@ const NovoRelatorio = () => {
                 <div className="space-y-2">
                   <Label htmlFor="funcionario" className="flex items-center space-x-2">
                     <User className="h-4 w-4 text-gaming-primary" />
-                    <span>Nome do Funcionário</span>
+                    <span>Nome do Atendente</span>
                   </Label>
                   <Input
                     id="funcionario"
                     name="funcionario"
                     placeholder="Seu nome"
-                    required
-                    className="bg-background"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="cliente" className="flex items-center space-x-2">
-                    <User className="h-4 w-4 text-gaming-secondary" />
-                    <span>Nome do Cliente</span>
-                  </Label>
-                  <Input
-                    id="cliente"
-                    name="cliente"
-                    placeholder="Nome do cliente atendido"
                     required
                     className="bg-background"
                   />
@@ -126,21 +110,6 @@ const NovoRelatorio = () => {
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="duracao" className="flex items-center space-x-2">
-                  <Clock className="h-4 w-4 text-gaming-secondary" />
-                  <span>Duração (minutos)</span>
-                </Label>
-                <Input
-                  id="duracao"
-                  name="duracao"
-                  type="number"
-                  min="1"
-                  placeholder="Ex: 15"
-                  required
-                  className="bg-background"
-                />
-              </div>
 
               <div className="space-y-2">
                 <Label htmlFor="descricao">Descrição Detalhada</Label>
