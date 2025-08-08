@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { FileText, User, Clock, Tag } from "lucide-react";
+import { FileText, User, Tag } from "lucide-react";
 import Layout from "@/components/Layout";
+import { supabase } from "@/integrations/supabase/client";
 
 const NovoRelatorio = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [funcionarios, setFuncionarios] = useState<{ user_id: string; nome: string; role: string }[]>([]);
+  const [selectedFuncionario, setSelectedFuncionario] = useState("");
 
   const tiposAtendimento = [
     "Trocar óculos de realidade virtual",
@@ -24,6 +26,23 @@ const NovoRelatorio = () => {
     "Limpeza de equipamento",
     "Outros"
   ];
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchFuncionarios = async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("user_id, nome, role");
+      if (!isMounted) return;
+      if (error) {
+        toast({ title: "Erro ao carregar usuários", description: error.message, variant: "destructive" });
+      } else {
+        setFuncionarios((data || []).filter((p) => !!p?.nome));
+      }
+    };
+    fetchFuncionarios();
+    return () => { isMounted = false; };
+  }, [toast]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,13 +100,19 @@ const NovoRelatorio = () => {
                     <User className="h-4 w-4 text-gaming-primary" />
                     <span>Nome do Atendente</span>
                   </Label>
-                  <Input
-                    id="funcionario"
-                    name="funcionario"
-                    placeholder="Seu nome"
-                    required
-                    className="bg-background"
-                  />
+                  <Select value={selectedFuncionario} onValueChange={setSelectedFuncionario}>
+                    <SelectTrigger className="bg-background">
+                      <SelectValue placeholder="Selecione o atendente" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {funcionarios.map((f) => (
+                        <SelectItem key={f.user_id} value={f.nome}>
+                          {f.nome}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <input type="hidden" name="funcionario" value={selectedFuncionario} required />
                 </div>
               </div>
 

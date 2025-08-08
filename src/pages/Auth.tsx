@@ -155,18 +155,6 @@ const Auth = () => {
               </Button>
             </form>
 
-            <div className="mt-6 text-center">
-              <Button
-                variant="link"
-                onClick={() => setIsLogin(!isLogin)}
-                className="text-sm"
-              >
-                {isLogin 
-                  ? 'Não tem conta? Criar uma agora' 
-                  : 'Já tem conta? Fazer login'
-                }
-              </Button>
-            </div>
           </CardContent>
         </Card>
       </div>

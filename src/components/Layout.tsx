@@ -10,7 +10,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const navigation = [
     { name: "Dashboard", href: "/", icon: Home },
     { name: "Novo Relatório", href: "/relatorio", icon: FileText },
-    ...(isAdmin ? [{ name: "Relatórios", href: "/relatorios", icon: BarChart3 }] : []),
+    ...(isAdmin ? [
+      { name: "Relatórios", href: "/relatorios", icon: BarChart3 },
+      { name: "Gerenciar Usuários", href: "/admin/usuarios", icon: User },
+    ] : []),
   ];
 
   return (

@@ -10,6 +10,7 @@ import NovoRelatorio from "./pages/NovoRelatorio";
 import Relatorios from "./pages/Relatorios";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import GerenciarUsuarios from "./pages/GerenciarUsuarios";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,11 @@ const App = () => (
             <Route path="/relatorios" element={
               <ProtectedRoute adminOnly>
                 <Relatorios />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/usuarios" element={
+              <ProtectedRoute adminOnly>
+                <GerenciarUsuarios />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
